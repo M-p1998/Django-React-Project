@@ -56,27 +56,62 @@ const App = () => {
                     projectName: ""
                 }
             )
+            setShowAddStudentForm(false);
         })
         .catch(error => console.error(error))
     }
     const handleEditStudent = (student) => {
         setSelectedStudent(student)
-        setNewStudent(student)
+        setNewStudent({
+            firstName: student.firstName,
+            lastName: student.lastName,
+            projectName: student.projectName
+        });
+        setShowAddStudentForm(true);
     }
-    const handleUpdateStudent = (id) => {
-        axios.put(`http://127.0.0.1:8000/api/students/${selectedStudent.id}/`, newStudent)
-        .then(response => {
-            fetchStudents()
-            setNewStudent(
-                {
-                    firstName: "",
-                    lastName: "",
-                    projectName: ""
-                }
-            );
-        })
-        .catch(error => console.error(error))
-    }
+    // const handleUpdateStudent = (id) => {
+    //     axios.put(`http://127.0.0.1:8000/api/students/${selectedStudent.id}/`, newStudent)
+    //     .then(response => {
+    //         fetchStudents()
+    //         setNewStudent(
+    //             {
+    //                 firstName: "",
+    //                 lastName: "",
+    //                 projectName: ""
+    //             }
+    //         );
+    //         setSelectedStudent(null);
+    //         setShowAddStudentForm(false);
+    //     })
+    //     .catch(error => console.error(error))
+    // }
+
+    const handleUpdateStudent = (e) => {
+        // e.preventDefault();
+        axios.put(`http://127.0.0.1:8000/api/students/${selectedStudent.student_id}/`, newStudent)
+            .then(response => {
+                fetchStudents();
+                setNewStudent({ firstName: "", lastName: "", projectName: "" });
+                setSelectedStudent(null);
+                setShowAddStudentForm(false); // Hide form after updating
+            })
+            .catch(error => console.error(error));
+    };
+
+    const handleDeleteStudent = (id) => {
+        axios.delete(`http://127.0.0.1:8000/api/students/${id}/`)
+            .then(response => {
+                setStudents(students.filter(student => student.student_id !== id));
+            })
+            .catch(error => console.error(error));
+    };
+
+    const handleCancel = () => {
+        setNewStudent({ firstName: "", lastName: "", projectName: "" });
+        setSelectedStudent(null);
+        setShowAddStudentForm(false);
+    };
+
     return (
         <div>
             <h3 className="title">Student List</h3>
@@ -97,18 +132,19 @@ const App = () => {
                         <td>{student.lastName}</td>
                         <td>{student.projectName}</td>
                         <td>
-                            <button className="btn btn-outline-info btn-gap">Edit</button>
+                            <button className="btn btn-outline-info btn-gap" onClick={() => handleEditStudent(student)}>Edit</button>
                         
-                            <button className="btn btn-outline-danger btn-gap" >Delete</button>
+                            <button className="btn btn-outline-danger btn-gap" onClick={() => handleDeleteStudent(student.student_id)}>Delete</button>
                         </td>
                     </tr>
                 ))}
             </tbody>
-            <button className="btn btn-link"> Add New Student</button>
+            <button className="btn btn-link" onClick={() => setShowAddStudentForm(true)}> Add New Student</button>
         </table>
 
 
         {/* <h3 className="title">{isEditMode ? "Edit Student" : "Add New Student"}</h3> */}
+        {showAddStudentForm && (
         <div className="form-container">
         <form className="row g-3 custom-form" >
         
@@ -132,10 +168,15 @@ const App = () => {
                     selectedStudent ? (
                         <>
                             <button className="btn btn-outline-primary button-gap" onClick={handleUpdateStudent}>Edit</button>
-                            <button className="btn btn-outline-danger button-gap" >Cancel</button>
+                            <button className="btn btn-outline-danger button-gap" onClick={handleCancel}>Cancel</button>
                         </>
                     ): (
-                        <button className="btn btn-outline-primary button-gap" type="submit" onClick={handleAddStudent}>Add</button>
+                        <>
+                            <button className="btn btn-outline-primary button-gap" type="submit" onClick={handleAddStudent}>Add</button>
+                            <button className="btn btn-outline-danger button-gap" onClick={handleCancel}>Cancel</button>
+                        </>
+                        
+                        
                     )
                 }
                 
@@ -145,7 +186,8 @@ const App = () => {
 
 
 
-
+        )}
+        {/* <footer>made with Django-React</footer> */}
 
         {/* <div>
             <footer>made with Django-React</footer>
