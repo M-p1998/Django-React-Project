@@ -14,17 +14,6 @@ const App = () => {
         projectName: ""
     })
     const [selectedStudent, setSelectedStudent] = useState(null)
-    // const [selectedStudents, setSelectedStudents] = useState({
-    //     firstName: "",
-    //     lastName: "",
-    //     projectName: ""
-    // })
-    // const [toView, setToView] = useState({
-    //     firstName: "",
-    //     lastName: "",
-    //     projectName: ""
-    // })
-    // const [openView, setOpenView] = useState(false);
 
     useEffect(() => {
         fetchStudents()
@@ -46,6 +35,7 @@ const App = () => {
     }
 
     const handleAddStudent = (e) => {
+        e.preventDefault(); 
         axios.post('http://127.0.0.1:8000/api/students/', newStudent)
         .then(response => {
             setStudents([...students, response.data])
@@ -69,25 +59,9 @@ const App = () => {
         });
         setShowAddStudentForm(true);
     }
-    // const handleUpdateStudent = (id) => {
-    //     axios.put(`http://127.0.0.1:8000/api/students/${selectedStudent.id}/`, newStudent)
-    //     .then(response => {
-    //         fetchStudents()
-    //         setNewStudent(
-    //             {
-    //                 firstName: "",
-    //                 lastName: "",
-    //                 projectName: ""
-    //             }
-    //         );
-    //         setSelectedStudent(null);
-    //         setShowAddStudentForm(false);
-    //     })
-    //     .catch(error => console.error(error))
-    // }
 
     const handleUpdateStudent = (e) => {
-        // e.preventDefault();
+        e.preventDefault();
         axios.put(`http://127.0.0.1:8000/api/students/${selectedStudent.student_id}/`, newStudent)
             .then(response => {
                 fetchStudents();
@@ -187,11 +161,8 @@ const App = () => {
 
 
         )}
-        {/* <footer>made with Django-React</footer> */}
+        <footer >made with Django-React</footer>
 
-        {/* <div>
-            <footer>made with Django-React</footer>
-        </div> */}
         </div>
     )
 }
