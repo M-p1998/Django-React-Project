@@ -1,0 +1,53 @@
+
+
+.title{
+    text-align: center;
+    padding: 20px 20px ;
+  
+  }
+  
+  .btn-gap {
+    margin-right: 8px;
+  }
+  
+  .custom-table {
+    width: 80%; 
+    max-width: 1000px; 
+    margin: auto; 
+    /* padding-left: 20px; */
+  
+  }
+  
+  .custom-table th, .custom-table td {
+    padding: 12px; 
+    text-align: center; 
+  }
+  
+  
+  
+  .form-container {
+    display: flex;
+    flex: 1; 
+    justify-content: center;
+    align-items: center; 
+    padding: 1em;
+    
+  }
+  
+  .button-gap {
+    margin-top: 8px;
+    margin-right:8px;
+  }
+  
+  
+  footer {
+    padding: 1em;
+    text-align: center;
+    color: aliceblue;
+    background-color: #1f2124; 
+    margin-top: auto;
+    position:fixed;
+    bottom: 0;
+    width: 100%;
+  
+  }
