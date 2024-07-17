@@ -36,7 +36,7 @@ const App = () => {
 
     const handleAddStudent = (e) => {
         e.preventDefault(); 
-        axios.post('http://127.0.0.1:8000/api/students/', newStudent)
+        axios.post(`http://127.0.0.1:8000/api/students/`, newStudent)
         .then(response => {
             setStudents([...students, response.data])
             setNewStudent(
